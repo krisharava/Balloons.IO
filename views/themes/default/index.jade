@@ -18,7 +18,10 @@ block content
 						strong Ballons.IO	 
 						| is build with the help of node.JS, Socket.IO and Redis.
 					div
-						a#twitbutt.sign-in-twitter(href="/auth/twitter") sign in
+						form(action="/login", method="post")
+							input(name="username")
+							input(type="submit") Send
+						//a#twitbutt.sign-in-twitter(href="/login") sign in
 			// #login-box 
 		// .homepage-container
 	

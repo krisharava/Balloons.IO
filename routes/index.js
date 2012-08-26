@@ -30,11 +30,19 @@ app.get('/', function(req, res, next) {
 
 app.get('/auth/twitter', passport.authenticate('twitter'));
 
-app.get('/auth/twitter/callback', 
+app.get('/auth/twitter/callback',
   passport.authenticate('twitter', { failureRedirect: '/' }),
   function(req, res) {
     res.redirect('/');
 });
+
+app.post('/login',
+  passport.authenticate('local'),
+  function(req, res) {
+    console.log("OK");
+    // If this function gets called, authentication was successful.
+    // `req.user` property contains the authenticated user.
+  });
 
 app.get('/logout', function(req, res){
   req.logout();
