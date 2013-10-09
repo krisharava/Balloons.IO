@@ -12,7 +12,7 @@ exports.restrict = function(req, res, next){
 
 /*
  * Generates a URI Like key for a room
- */       
+ */
 
 exports.genRoomKey = function() {
   var shasum = crypto.createHash('sha1');
@@ -50,7 +50,7 @@ exports.roomExists = function(req, res, client, fn) {
 
 /*
  * Creates a room
- */       
+ */
 exports.createRoom = function(req, res, client) {
   var roomKey = exports.genRoomKey()
     , room = {
@@ -76,7 +76,7 @@ exports.createRoom = function(req, res, client) {
  * Get Room Info
  */
 
-exports.getRoomInfo = function(req, res, client, fn) { 
+exports.getRoomInfo = function(req, res, client, fn) {
   client.hgetall('rooms:' + req.params.id + ':info', function(err, room) {
     if(!err && room && Object.keys(room).length) fn(room);
     else res.redirect('back');
@@ -182,14 +182,14 @@ exports.enterRoom = function(req, res, room, users, rooms, status){
  * Sort Case Insensitive
  */
 
-exports.caseInsensitiveSort = function (a, b) { 
+exports.caseInsensitiveSort = function (a, b) {
    var ret = 0;
 
    a = a.toLowerCase();
    b = b.toLowerCase();
 
    if(a > b) ret = 1;
-   if(a < b) ret = -1; 
+   if(a < b) ret = -1;
 
    return ret;
 };
@@ -218,7 +218,7 @@ exports.merge = function merge(a, b) {
 };
 
 /**
- * HOP 
+ * HOP
  */
 
 exports.has = Object.prototype.hasOwnProperty;

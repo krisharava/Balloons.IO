@@ -44,7 +44,7 @@ function Sockets (app, server) {
         };
 
         return accept(null, true);
-        
+
       });
     } else {
       return accept('No cookie transmitted.', false);
@@ -104,13 +104,13 @@ function Sockets (app, server) {
         }
 
         // chatlogWriteStream.write(JSON.stringify(chatlogRegistry) + "\n");
-        
+
         io.sockets.in(room_id).emit('new msg', {
           nickname: nickname,
           provider: provider,
           msg: data.msg
-        });        
-      }   
+        });
+      }
     });
 
     socket.on('set status', function(data) {
@@ -130,7 +130,7 @@ function Sockets (app, server) {
       var tail = require('child_process').spawn('tail', ['-n', 5, chatlogFileName]);
       tail.stdout.on('data', function (data) {
         var lines = data.toString('utf-8').split("\n");
-        
+
         lines.forEach(function(line, index) {
           if(line.length) {
             var historyLine = JSON.parse(line);
@@ -167,5 +167,4 @@ function Sockets (app, server) {
       });
     });
   });
-
 };

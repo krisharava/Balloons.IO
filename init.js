@@ -11,7 +11,7 @@ var fs = require('fs');
 
 
 /*
- * Initialize the 
+ * Initialize the
  *
  * @param {Object} Redis client instance
  * API @public
@@ -31,7 +31,7 @@ module.exports = function(client) {
   // No one is online when starting up
   client.keys('rooms:*:online', function(err, keys) {
     var roomNames = [];
-    
+
     if(keys.length) {
       roomNames = roomNames.concat(keys);
       client.del(keys);
