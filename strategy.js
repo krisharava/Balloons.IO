@@ -5,7 +5,8 @@
 
 var passport = require('passport')
   , TwitterStrategy = require('passport-twitter').Strategy
-  , FacebookStrategy = require('passport-facebook').Strategy 
+  , FacebookStrategy = require('passport-facebook').Strategy
+  , LocalStrategy = require('passport-local').Strategy;
 
 /**
  * Expose Authentication Strategy
@@ -42,7 +43,7 @@ function Strategy (app) {
         return done(null, profile);
       }
     ));
-  } 
+  }
 
   if(config.auth.facebook.clientid.length) {
     passport.use(new FacebookStrategy({
