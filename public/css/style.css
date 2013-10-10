@@ -979,7 +979,7 @@ body.home-page .homepage-container .login-box p {
 }
 body.home-page .homepage-container .slideshow,
 body.home-page .homepage-container .homepage-container .login-box {
-  height: 350px;
+  height: 420px;
   border-radius: 4px;
   float: left;
   border: 1px solid #ccc;
@@ -1060,7 +1060,7 @@ body.home-page footer {
   right: 0;
   left: 0;
   text-align: center;
-  position: absolute;
+  /* position: absolute; */
 }
 body.home-page footer a {
   color: #666;
@@ -1377,4 +1377,13 @@ input::-moz-input-placeholder {
   h3 {
     page-break-after: avoid;
   }
+}
+.text-grey-small {
+  border: 1px solid rgba(0,0,0,0.3);
+  background: #f9f9f9;
+  width: 100px;
+  padding: 0.6em;
+  color: #666;
+  border-radius: 4px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.4) inset;
 }

@@ -25,6 +25,22 @@ module.exports = Strategy;
 function Strategy (app) {
   var config = app.get('config');
 
+  var users = [
+      { id: 1, username: 'bob', password: 'secret', email: 'bob@example.com' },
+      { id: 2, username: 'joe', password: 'birthday', email: 'joe@example.com' }
+  ];
+
+  function findByUsername(username, fn) {
+    var i = 0;
+    for (i, len = users.length; i < len; i++) {
+      var user = users[i];
+      if (user.username === username) {
+        return fn(null, user);
+      }
+    }
+    return fn(null, null);
+  }
+
   passport.serializeUser(function(user, done) {
     done(null, user);
   });
@@ -56,5 +72,14 @@ function Strategy (app) {
       }
     ));
   }
+
+  passport.use(new LocalStrategy(function(username, password, done) {
+    findByUsername(username, function(err, user) {
+      if (err) { return done(err); }
+      if (!user) { return done(null, false, { message: 'Unknown user ' + username }); }
+      if (user.password != password) { return done(null, false, { message: 'Invalid password' }); }
+      return done(null, user);
+    });
+  }));
 }
 

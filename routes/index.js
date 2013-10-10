@@ -22,7 +22,7 @@ module.exports = Routes;
 function Routes (app) {
   var config = app.get('config');
   var client = app.get('redisClient');
-  
+
   /*
    * Homepage
    */
@@ -46,7 +46,7 @@ function Routes (app) {
   if(config.auth.twitter.consumerkey.length) {
     app.get('/auth/twitter', passport.authenticate('twitter'));
 
-    app.get('/auth/twitter/callback', 
+    app.get('/auth/twitter/callback',
       passport.authenticate('twitter', {
         successRedirect: '/',
         failureRedirect: '/'
@@ -57,13 +57,19 @@ function Routes (app) {
   if(config.auth.facebook.clientid.length) {
     app.get('/auth/facebook', passport.authenticate('facebook'));
 
-    app.get('/auth/facebook/callback', 
+    app.get('/auth/facebook/callback',
       passport.authenticate('facebook', {
         successRedirect: '/',
         failureRedirect: '/'
       })
     );
   }
+
+  app.post('/login',
+    passport.authenticate('local'),
+    function(req, res) {
+      res.redirect('/');
+  });
 
   app.get('/logout', function(req, res){
     req.logout();
