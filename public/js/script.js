@@ -264,9 +264,24 @@ $(function() {
   };
 
   var textParser = function(text) {
-    text = text
-      .replace(/(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,"<a href=\"$1\" target='_blank'>$1</a>")
-      .replace(/(@)([a-zA-Z0-9_]+)/g, "<a href=\"http://twitter.com/$2\" target=\"_blank\">$1$2</a>");
+    var i = 0;
+    var target_regex = [
+      /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]\.(jpg|png|gif))/ig,
+      /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,
+      /(@)([a-zA-Z0-9_]+)/g
+    ];
+    var result_tag = [
+      "<img src=\"$1\" width=\"50\" height=\"50\" class=\"chat-image\"/>",
+      "<a href=\"$1\" target='_blank'>$1</a>",
+      "<a href=\"http://twitter.com/$2\" target=\"_blank\">$1$2</a>"
+    ]
+
+    for(i; i < target_regex.length; i++) {
+      if(text.match(target_regex[i])) {
+        text = text.replace(target_regex[i], result_tag[i]);
+        break;
+      }
+    }
 
    return  injectEmoticons(text);
   };

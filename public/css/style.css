@@ -1387,3 +1387,8 @@ input::-moz-input-placeholder {
   border-radius: 4px;
   box-shadow: 0 1px 3px rgba(0,0,0,0.4) inset;
 }
+
+.chat-image {
+    width: 200px;
+    height: 200px;
+}
