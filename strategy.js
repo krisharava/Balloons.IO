@@ -3,6 +3,8 @@
  * Module dependencies
  */
 
+var fs = require('fs');
+
 var passport = require('passport')
   , TwitterStrategy = require('passport-twitter').Strategy
   , FacebookStrategy = require('passport-facebook').Strategy
@@ -24,11 +26,16 @@ module.exports = Strategy;
 
 function Strategy (app) {
   var config = app.get('config');
+  var userfile = __dirname + '/users.json';
+  var users;
 
-  var users = [
-      { id: 1, username: 'bob', password: 'secret', email: 'bob@example.com' },
-      { id: 2, username: 'joe', password: 'birthday', email: 'joe@example.com' }
-  ];
+  fs.readFile(userfile, 'utf8', function (err, data) {
+    if (err) {
+      console.log('Error: ' + err);
+      return;
+    }
+    users = JSON.parse(data);
+  });
 
   function findByUsername(username, fn) {
     var i = 0;
