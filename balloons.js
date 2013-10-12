@@ -2,8 +2,9 @@
  * Module dependencies
  */
 
+var webRTC = require('webrtc.io').listen(8001);
 var express = require('express')
-  , init = require('./init')
+  , init = require('./init');
 
 /*
  * Create and config server

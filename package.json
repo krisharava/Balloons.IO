@@ -15,7 +15,9 @@
     "passport-facebook": "~0.1.5",
     "passport-twitter": "~0.1.5",
     "passport-local": "~0.1.5",
-    "component-type": "component/type"
+    "component-type": "component/type",
+    "webrtc.io": "latest",
+    "webrtc.io-client": "latest"
   },
   "engines": {
     "node": ">= 0.8.0",
