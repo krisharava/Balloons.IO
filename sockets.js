@@ -6,7 +6,8 @@
 var sio = require('socket.io')
   , parseCookies = require('connect').utils.parseSignedCookies
   , cookie = require('cookie')
-  , fs = require('fs');
+  , fs = require('fs')
+  , utils = require('./utils');
 
 /**
  * Expose Sockets initialization
@@ -95,13 +96,18 @@ function Sockets (app, server) {
 
     socket.on('my msg', function(data) {
       var no_empty = data.msg.replace("\n","");
+
+      if(utils.isImage(data.msg)) {
+          utils.uploadImage(data.msg);
+      }
+
       if(no_empty.length > 0) {
         var chatlogRegistry = {
           type: 'message',
           from: userKey,
           atTime: new Date(),
           withData: data.msg
-        }
+        };
 
         // chatlogWriteStream.write(JSON.stringify(chatlogRegistry) + "\n");
 

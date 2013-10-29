@@ -1,5 +1,10 @@
 var crypto = require('crypto')
-  , type = require('component-type');
+  , type = require('component-type')
+  , url_utils = require('url')
+  , http = require('http')
+  , fs = require('fs')
+  , easyimg = require('easyimage')
+  , path = require('path');
 
 /*
  * Restrict paths
@@ -216,6 +221,53 @@ exports.merge = function merge(a, b) {
   }
   return a;
 };
+
+/*
+ * Image check & upload
+ */
+exports.isImage = function(msg) {
+  var image_regex = /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]+\/([-A-Z0-9+&@#%=~_|]+)\.(jpg|jpeg|png|gif))/ig;
+  return msg.match(image_regex);
+}
+
+exports.uploadImage = function(url) {
+  var dst = path.join(__dirname, '/public/uploads/');
+  var splitted = url.split('/');
+  var filename = splitted[splitted.length - 1];
+  var filepath = dst + filename;
+  var url = url_utils.parse(url);
+  var options = {
+    host: url.hostname,
+    port: url.port || 80,
+    path: url.pathname
+  };
+  var img_options = {
+      src: filepath,
+      dst: dst + filename.replace('.', '_thumb.'),
+      width: 200,
+      height: 200
+  }
+
+  http.get(options, function(res) {
+      res.setEncoding('binary');
+      var imagedata = ''
+
+      res.on('data', function(chunk) {
+          imagedata += chunk;
+      });
+
+      res.on('end', function() {
+          fs.writeFile(filepath, imagedata, 'binary', function(err) {
+              if(err) throw err;
+              easyimg.thumbnail(img_options, function(err, image) {
+                  if(err) throw err;
+              });
+          });
+      });
+  }).on('error', function(e) {
+      console.log("Got error: " + e.message);
+  });
+}
 
 /**
  * HOP

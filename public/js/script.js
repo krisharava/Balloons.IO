@@ -265,25 +265,28 @@ $(function() {
 
   var textParser = function(text) {
     var i = 0;
+    var is_image = false;
     var target_regex = [
-      /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|]\.(jpg|png|gif))/ig,
+      /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]+\/([-A-Z0-9+&@#%=~_|]+)\.(jpg|jpeg|png|gif))/ig,
       /(\b(https?|ftp|file):\/\/[-A-Z0-9+&@#\/%?=~_|!:,.;]*[-A-Z0-9+&@#\/%=~_|])/ig,
       /(@)([a-zA-Z0-9_]+)/g
     ];
     var result_tag = [
-      "<img src=\"$1\" width=\"50\" height=\"50\" class=\"chat-image\"/>",
+      "<a class=\"fancybox\" href=\"/uploads/$3.$4\" rel=\"group\"><img src=\"/uploads/$3_thumb.$4\" width=\"50\" height=\"50\" class=\"chat-image\"/></a>",
       "<a href=\"$1\" target='_blank'>$1</a>",
       "<a href=\"http://twitter.com/$2\" target=\"_blank\">$1$2</a>"
     ]
 
     for(i; i < target_regex.length; i++) {
       if(text.match(target_regex[i])) {
+        if(i == 0) {
+          is_image = true;
+        }
         text = text.replace(target_regex[i], result_tag[i]);
         break;
       }
     }
-
-   return  injectEmoticons(text);
+    return injectEmoticons(text);
   };
 
   var parseChatBox = function(chatBox) {
@@ -294,7 +297,9 @@ $(function() {
 
   var parseChatBoxMsg = function(chatBoxMsg) {
     var msg = chatBoxMsg.html();
-    return chatBoxMsg.html(textParser(msg));
+    setTimeout(function() {
+      return chatBoxMsg.html(textParser(msg));
+    }, 1000);
   };
 
   var patterns = {

@@ -5,3 +5,4 @@ config.json
 chats/*
 *.rdb
 users.json
+public/uploads
