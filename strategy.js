@@ -8,6 +8,7 @@ var fs = require('fs');
 var passport = require('passport')
   , TwitterStrategy = require('passport-twitter').Strategy
   , FacebookStrategy = require('passport-facebook').Strategy
+  , GoogleStrategy = require('passport-google-oauth').OAuth2Strategy
   , LocalStrategy = require('passport-local').Strategy;
 
 /**
@@ -80,6 +81,20 @@ function Strategy (app) {
     ));
   }
 
+  if(config.auth.google.clientid.length) {
+	  passport.use(new GoogleStrategy({
+	    clientID: config.auth.google.clientid,
+		clientSecret: config.auth.google.clientsecret,
+		callbackURL: config.auth.google.callback
+	  },
+	  function(accessToken, refreshToken, profile, done) {
+		 process.nextTick(function () {
+			return done(null, profile);
+		 });
+	  }
+	));
+  }
+  
   passport.use(new LocalStrategy(function(username, password, done) {
     findByUsername(username, function(err, user) {
       if (err) { return done(err); }

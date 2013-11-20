@@ -1,5 +1,5 @@
 var crypto = require('crypto')
-  , type = require('component-type')
+  , type = require('type-component')
   , url_utils = require('url')
   , http = require('http')
   , fs = require('fs')
